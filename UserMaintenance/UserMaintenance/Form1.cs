@@ -20,10 +20,13 @@ namespace UserMaintenance
             InitializeComponent();
             {
                 InitializeComponent();
-                label1.Text = Resource1.FullName; 
+                label1.Text = Resource1.FullName;
 
                 button1.Text = Resource1.Add;
                 button2.Text = Resource1.SaveFile;
+                button3.Text = Resource1.Delete;
+
+
 
 
 
@@ -72,6 +75,17 @@ namespace UserMaintenance
 
                 }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+
+            var id = listBox1.SelectedValue;
+            var torles = from u in users
+                         where u.ID.Equals(id)
+                         select u;
+            users.Remove(torles.FirstOrDefault());
         }
     }
 }
