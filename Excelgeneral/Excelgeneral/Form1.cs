@@ -168,7 +168,7 @@ namespace Excelgeneral
             lastColumn.Interior.Color = Color.LightGreen;
             lastColumn.NumberFormat = "#\\ ##0,00";   
 
-            // int lastRowID = xlSheet.UsedRange.Rows.Count;
+           
         }
         
 
