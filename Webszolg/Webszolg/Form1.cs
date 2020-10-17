@@ -19,10 +19,37 @@ namespace Webszolg
     public partial class Form1 : Form
     {
         BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
+        public string asd;
 
         public Form1()
         {
             InitializeComponent();
+            var mnbService = new MNBArfolyamServiceSoapClient();
+            var request = new GetCurrenciesRequestBody()
+            {
+              
+            };
+            var currency = mnbService.GetCurrencies(request);
+            var result = currency.GetCurrenciesResult;
+
+            var xml = new XmlDocument();
+            xml.LoadXml(result);
+
+          
+            foreach (XmlElement element in xml.DocumentElement)
+            {
+                for (int i = 0; i < element.ChildNodes.Count; i++)
+                {
+                    var childElement = (XmlElement)element.ChildNodes[i];
+                    Currencies.Add(childElement.InnerText);
+
+
+                }
+            }
+
+
+
             RefreshData();
 
         }
@@ -30,37 +57,16 @@ namespace Webszolg
         public void RefreshData()
         {
             Rates.Clear();
-            var mnbService = new MNBArfolyamServiceSoapClient();
-            var request = new GetExchangeRatesRequestBody()
-            {
-                currencyNames = comboBox1.SelectedItem.ToString(),
-                startDate = dateTimePicker1.ToString(),
-                endDate = dateTimePicker2.ToString(),
-            };
-            var response = mnbService.GetExchangeRates(request);
-            var result = response.GetExchangeRatesResult;
-
+            comboBox1.DataSource = Currencies;
             dataGridView1.DataSource = Rates;
+            harmas();
+            otos();
+            diagram();
 
-            var xml = new XmlDocument();
-            xml.LoadXml(result);
+        }
 
-            foreach (XmlElement element in xml.DocumentElement)
-            {
-                var rate = new RateData();
-                Rates.Add(rate);
-
-                rate.Date = DateTime.Parse(element.GetAttribute("date"));
-
-                var childElement = (XmlElement)element.ChildNodes[0];
-                rate.Currency = childElement.GetAttribute("curr");
-
-                var unit = decimal.Parse(childElement.GetAttribute("unit"));
-                var value = decimal.Parse(childElement.InnerText);
-                if (unit != 0)
-                    rate.Value = value / unit;
-            }
-
+        private void diagram()
+        {
             chartRateData.DataSource = Rates;
 
             var series = chartRateData.Series[0];
@@ -76,7 +82,46 @@ namespace Webszolg
             chartArea.AxisX.MajorGrid.Enabled = false;
             chartArea.AxisY.MajorGrid.Enabled = false;
             chartArea.AxisY.IsStartedFromZero = false;
+        }
 
+        private void otos()
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(asd);
+
+            foreach (XmlElement element in xml.DocumentElement)
+            {
+                var rate = new RateData();
+                Rates.Add(rate);
+
+                rate.Date = DateTime.Parse(element.GetAttribute("date"));
+
+                var childElement = (XmlElement)element.ChildNodes[0];
+                if (childElement == null)
+                    continue;
+                rate.Currency = childElement.GetAttribute("curr");
+
+
+                var unit = decimal.Parse(childElement.GetAttribute("unit"));
+                var value = decimal.Parse(childElement.InnerText);
+                if (unit != 0)
+                    rate.Value = value / unit;
+
+            }
+        }
+
+        public void harmas()
+        {
+            var mnbService = new MNBArfolyamServiceSoapClient();
+            var request = new GetExchangeRatesRequestBody()
+            {
+                currencyNames = comboBox1.SelectedItem.ToString(),
+                startDate = dateTimePicker1.Value.ToString(),
+                endDate = dateTimePicker2.Value.ToString(),
+            };
+            var response = mnbService.GetExchangeRates(request);
+            var result = response.GetExchangeRatesResult;
+            asd = result;
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -92,6 +137,7 @@ namespace Webszolg
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshData();
+            
         }
     }
 }
