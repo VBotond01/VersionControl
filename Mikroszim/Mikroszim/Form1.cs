@@ -19,15 +19,12 @@ namespace Mikroszim
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
         Random rng = new Random(1234);
+        List<int> MaleNumber = new List<int>();
+        List<int> FemaleNumber = new List<int>();
+
         public Form1()
         {
             InitializeComponent();
-
-            Population = GetPopulation(@"C:\Temp\nép.csv");
-            BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
-            DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
-
-            Simulation();
 
         }
 
@@ -66,8 +63,8 @@ namespace Mikroszim
                     BirthProbabilities.Add(new BirthProbability()
                     {
                         BirthYear = int.Parse(line[0]),
-                        P = double.Parse(line[1]),
-                        NbrOfChildren = int.Parse(line[2])
+                        P = double.Parse(line[2]),
+                        NbrOfChildren = int.Parse(line[1])
                     });
                 }
             }
@@ -87,8 +84,8 @@ namespace Mikroszim
                     var line = sr.ReadLine().Split(';');
                     DeathProbabilities.Add(new DeathProbability()
                     {
-                        BirthYear = int.Parse(line[0]),
-                        Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
+                        BirthYear = int.Parse(line[1]),
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[0]),
                         P = double.Parse(line[2])
                     });
                 }
@@ -131,6 +128,11 @@ namespace Mikroszim
 
         public void Simulation()
         {
+            Population = GetPopulation(textBox1.Text);
+            BirthProbabilities = GetBirthProbabilities(@"C:\Windows\Temp\születés.csv");
+            DeathProbabilities = GetDeathProbabilities(@"C:\Windows\Temp\halál.csv");
+
+
             for (int year = 2005; year <= 2024; year++)
             {
 
@@ -145,9 +147,13 @@ namespace Mikroszim
                 int nbrOfMales = (from x in Population
                                   where x.Gender == Gender.Male && x.IsAlive
                                   select x).Count();
+                MaleNumber.Add(nbrOfMales);
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
+                
+                FemaleNumber.Add(nbrOfFemales);
+
                 Console.WriteLine(
                     string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
             }
@@ -158,13 +164,12 @@ namespace Mikroszim
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            richTextBox1.Clear();
+            MaleNumber.Clear();
+            FemaleNumber.Clear();
+ 
             Simulation();
             Displayresults();
-
-
-
-
 
         }
 
@@ -181,7 +186,11 @@ namespace Mikroszim
 
         public void Displayresults()
         {
+            for (int i = 2005; i <= numericUpDown1.Value; i++)
+            {
+                richTextBox1.AppendText("Szimulációs év:" + i + "\n" + "\t Fiúk:" + MaleNumber[i - 2005] + "\n" + "\t Lányok:" + FemaleNumber[i - 2005] + "\n\n");
 
+            }
 
         }
 
