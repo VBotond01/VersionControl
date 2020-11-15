@@ -29,12 +29,45 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.mainPanel = new System.Windows.Forms.Panel();
+            this.conveyorTimer = new System.Windows.Forms.Timer(this.components);
+            this.createTimer = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // mainPanel
+            // 
+            this.mainPanel.Location = new System.Drawing.Point(3, 108);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(801, 261);
+            this.mainPanel.TabIndex = 0;
+            // 
+            // conveyorTimer
+            // 
+            this.conveyorTimer.Enabled = true;
+            this.conveyorTimer.Interval = 10;
+            // 
+            // createTimer
+            // 
+            this.createTimer.Enabled = true;
+            this.createTimer.Interval = 3000;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.mainPanel);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel mainPanel;
+        public System.Windows.Forms.Timer conveyorTimer;
+        public System.Windows.Forms.Timer createTimer;
     }
 }
 
