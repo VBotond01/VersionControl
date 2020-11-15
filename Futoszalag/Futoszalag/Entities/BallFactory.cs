@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Futoszalag.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Futoszalag.Entities
 {
-    public class BallFactory
+    public class BallFactory : IToyFactory
     {
-        public Ball CreateNew()
+        public Toy CreateNew()
         {
             return new Ball();
         }
