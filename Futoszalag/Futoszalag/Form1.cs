@@ -14,7 +14,7 @@ namespace Futoszalag
 {
     public partial class Form1 : Form
     {
-        private List<Toy> _toys = new List<Toy>();
+        private List<Abstractions.Toy> _toys = new List<Abstractions.Toy>();
         private Toy _nextToy;
         private IToyFactory _factory;
         public IToyFactory Factory
@@ -31,40 +31,40 @@ namespace Futoszalag
             InitializeComponent();
             Factory = new BallFactory();
         }
-        private void createTimer_Tick(object sender, EventArgs e)
+        private void CreateTimer_Tick(object sender, EventArgs e)
         {
-            var ball = Factory.CreateNew();
-            _toys.Add(ball);
-            ball.Left = -ball.Width;
-            mainPanel.Controls.Add(ball);
+            var toy = Factory.CreateNew();
+            _toys.Add(toy);
+            toy.Left = -toy.Width;
+            mainPanel.Controls.Add(toy);
         }
 
-        private void conveyorTimer_Tick(object sender, EventArgs e)
+        private void ConveyorTimer_Tick(object sender, EventArgs e)
         {
             var maxPosition = 0;
-            foreach (var ball in _toys)
+            foreach (var toy in _toys)
             {
-                ball.MoveToy();
-                if (ball.Left > maxPosition)
-                    maxPosition = ball.Left;
+                toy.MoveToy();
+                if (toy.Left > maxPosition)
+                    maxPosition = toy.Left;
             }
 
             if (maxPosition > 1000)
             {
-                var oldestBall = _toys[0];
-                mainPanel.Controls.Remove(oldestBall);
-                _toys.Remove(oldestBall);
+                var oldestToy = _toys[0];
+                mainPanel.Controls.Remove(oldestToy);
+                _toys.Remove(oldestToy);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Factory = new CarFactory();
+            Factory = new Entities.CarFactory();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Factory = new BallFactory
+            Factory = new Entities.BallFactory
             {
                 BallColor = button2.BackColor
             };
@@ -81,6 +81,37 @@ namespace Futoszalag
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var colorPicker = new ColorDialog();
+
+            colorPicker.Color = button.BackColor;
+            if (colorPicker.ShowDialog() != DialogResult.OK)
+                return;
+            button.BackColor = colorPicker.Color;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Factory = new Entities.PresentFactory
+            {
+                RibbonColor = button5.BackColor,
+                BoxColor = button6.BackColor
+            };
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var colorPicker = new ColorDialog();
+
+            colorPicker.Color = button.BackColor;
+            if (colorPicker.ShowDialog() != DialogResult.OK)
+                return;
+            button.BackColor = colorPicker.Color;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var colorPicker = new ColorDialog();
