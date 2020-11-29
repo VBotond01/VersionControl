@@ -16,6 +16,10 @@ namespace Evolucio
     {
         GameController gc = new GameController();
         GameArea ga;
+        int populationSize = 100;
+        int nbrOfSteps = 10;
+        int nbrOfStepsIncrement = 10;
+        int generation = 1;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +29,8 @@ namespace Evolucio
 
             gc.AddPlayer();
             gc.Start(true);
+
+            
         }
     }
 }
