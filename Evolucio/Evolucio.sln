@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evolucio", "Evolucio\Evolucio.csproj", "{B7BEA630-179A-4908-A2B6-2376BB711A80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7BEA630-179A-4908-A2B6-2376BB711A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BEA630-179A-4908-A2B6-2376BB711A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BEA630-179A-4908-A2B6-2376BB711A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BEA630-179A-4908-A2B6-2376BB711A80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A026C21-EC61-45BC-BF88-BAD6672D2C12}
+	EndGlobalSection
+EndGlobal
